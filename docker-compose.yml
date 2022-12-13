@@ -3,10 +3,11 @@ version: '3.5'
 services:
   postgres:
     container_name: postgres
-    image: postgres:13
+    image: postgres:15.1
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-db_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-db_password}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
       PGDATA: /data/postgres
       TZ: "Europe/Kiev"
       PGTZ: "Europe/Kiev"
