@@ -1,9 +1,7 @@
-version: '3.5'
-
 services:
   postgres:
     container_name: postgres
-    image: postgres:15.1
+    image: postgres:latest
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-db_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-db_password}
@@ -15,9 +13,6 @@ services:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
-    networks:
-      #- postgres
-      - localnet
     restart: unless-stopped
 
   pgadmin:
@@ -32,17 +27,7 @@ services:
 
     ports:
       - "${PGADMIN_PORT:-5050}:80"
-    networks:
-      #- postgres
-      - localnet
     restart: unless-stopped
-
-networks:
-  localnet:
-    external:
-      name: localnet
-#  postgres:
-#    driver: bridge
 
 volumes:
   postgres:
