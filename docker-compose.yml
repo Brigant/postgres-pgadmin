@@ -17,6 +17,10 @@ services:
       - postgres
       #- localnet
     restart: unless-stopped
+    ports:
+      - ${REDIS_PORT}:6379
+    networks:
+      - postgres-net
 
   pgadmin:
     container_name: pgadmin
@@ -27,7 +31,6 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
-
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
@@ -45,3 +48,9 @@ networks:
 volumes:
   postgres:
   pgadmin:
+
+
+networks:
+  postgres-net:
+    name: postgres-net
+    driver: bridge
