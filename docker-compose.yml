@@ -1,7 +1,7 @@
 services:
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:18.1
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-db_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-db_password}
@@ -14,12 +14,8 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - postgres-net
-    restart: unless-stopped
-
-  redis:
-    image: redis:7-alpine
-    container_name: redis
+      - postgres
+      #- localnet
     restart: unless-stopped
     ports:
       - ${REDIS_PORT}:6379
@@ -38,8 +34,16 @@ services:
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
-      - postgres-net
+      - postgres
+      #- localnet
     restart: unless-stopped
+
+networks:
+#  localnet:
+#   external:
+#     name: localnet
+  postgres:
+    driver: bridge
 
 volumes:
   postgres:
